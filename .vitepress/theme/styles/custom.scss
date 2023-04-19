@@ -1,0 +1,44 @@
+/*修改滚动条样式*/
+::-webkit-scrollbar {
+  width: 2px;
+}
+::-webkit-scrollbar-track {
+  background: rgb(239, 239, 239);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgba(144, 147, 153, 0.3);
+  border-radius: 2px;
+  transition: all 0.2s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(144, 147, 153, 0.5);
+}
+
+.pt {
+  table,
+  ul,
+  li + li {
+    margin: 0;
+  }
+
+  tr {
+    border: none;
+    &:nth-child(2n) {
+      background-color: var(--el-table-tr-bg-color);
+    }
+    th {
+      font-size: inherit;
+    }
+    td {
+      font-size: inherit;
+      border-top: none;
+    }
+  }
+}
+
+.mx-1 {
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+}

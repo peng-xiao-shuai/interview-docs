@@ -1,0 +1,30 @@
+{
+  "name": "vite-vue-admin-docs",
+  "version": "1.0.0",
+  "private": true,
+  "author": "peng-xiao-shuai",
+  "license": "MIT",
+  "repository": "https://github.com/peng-xiao-shuai/vite-vue-admin-dosc",
+  "scripts": {
+    "dev": "vitepress dev .",
+    "build": "vitepress build .",
+    "serve": "vitepress serve .",
+    "gitBuild": "vitepress build ."
+  },
+  "devDependencies": {
+    "@types/markdown-it": "^12.2.3",
+    "@types/node": "*",
+    "fs": "0.0.1-security",
+    "path": "^0.12.7",
+    "sass": "^1.59.2",
+    "vite": "^4.1.4",
+    "vitepress": "1.0.0-alpha.45"
+  },
+  "dependencies": {
+    "markdown-it": "^13.0.1",
+    "markdown-it-container": "^3.0.0",
+    "prism-theme-vars": "^0.2.4",
+    "prismjs": "^1.29.0",
+    "vue": "^3.2.47"
+  }
+}
