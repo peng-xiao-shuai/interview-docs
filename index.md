@@ -2,9 +2,9 @@
 layout: home
 
 hero:
-  name: 面试题
-  text: 主题
-  tagline: 描述
+  name: 前端面试题
+  text: 复习前端基础知识，已经应对面试网站！
+  tagline:
   image:
     src: /logo.svg
     alt: Vite-Vue-Admin
