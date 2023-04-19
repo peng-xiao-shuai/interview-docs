@@ -3,8 +3,8 @@ layout: home
 
 hero:
   name: 前端面试题
-  text: 复习前端基础知识，已经应对面试网站！
-  tagline:
+  text:
+  tagline: 复习前端基础知识，已经应对面试网站！
   image:
     src: /logo.svg
     alt: Vite-Vue-Admin
