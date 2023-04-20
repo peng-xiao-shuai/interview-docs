@@ -48,6 +48,11 @@
 不支持 `IE8` 及以下浏览器,需要使用 `htmlshiv.js` 兼容
 :::
 
+### 语义化理解
+::: demo
+根据内容的机构化，选择合适的标签便于开发者阅读和写出更优雅的的代码，同时让浏览器和爬虫更好的解析
+:::
+
 ### 什么是自适应
 ::: demo
 自适应浏览器更具用户设备,分辨率,尺寸等因素自动调整网页的布局和内容展现方式。
@@ -121,6 +126,17 @@
 优点：减少`http`请求
 缺点：维护比较差,例如图片位置更改或者进行修改
 :::
+
+## 浏览器
+
+### 浏览器的线程
+::: demo
+- `JS` 引擎线程：解释执行 `JS` 代码
+- GUI 线程：绘制用户页面，与 JS 线程互斥，执行 JS 时会停止 GUI 线程
+- HTTP 网络请求线程：用于处理网络请求
+- 定时器线程：处理 setTimeout、setInterval 函数，等待时间结束后，将执行函数推入事件队列
+- 事件处理线程：交互事件发生后，将函数推入事件队列
+:::
 ### 用户从浏览器输入地址后发生了什么？
 ::: demo
 ***前话 浏览器会根据你输入的部分地址,然后去读取缓存,缓存中存在和你输入的地址相仿的则会再地址栏下方提示,如果没有则不提示
@@ -164,7 +180,7 @@
 
 <!-- 此时的`HTML`文件还是字节,将字节转换为字符,此时的字符也就是我们编写的`HTML`代码,机器是看不懂的,在将字符`Token`化（Token化,其实是将字符标签转换为 起始标签和结束标签）,Token化之后在转换为节点对象,将节点对象连接在一起形成一个文本对象模型也就是`DOM`树 -->
 
-**link/script/img/video请求后都会单独开辟一个新线程加载资源文件**
+**link/script/img/video请求后都会单独开辟一个新线程（HTTP网络请求线程）加载资源文件**
 解析到了 link、script 等需要引入外部资源标签时会单独开辟新的线程进入任务队列去请求相应的资源文件,此时解析会继续向下执行
 当`header`中存在`script`是会阻塞解析,会等`script`执行完成时在进行解析。
 当遇到 style 内嵌样式时会等待所有的外部 CSS 资源下载完成,生成 CSSOM。
@@ -195,6 +211,10 @@ HTML 所有解析完成后,开始生成 DOM 树,在将`DOM`树和`CSSOM`进行�
 - - 动画效果能用`transform、opacity` 就不使用其他,因为 `transform、opacity` 可以开启 `GPU` 加速,不会引发回流和重绘
 - - 动画中牺牲平滑度换区速度
 - 将`script` 标签写在 body 后面,或者加上 `async` 或者 `defer`
+<!--
+defer: 立即下载，延迟执行，延迟到整个页面都解析完毕后再运行，按照先后顺序执行
+async: 异步脚本，下载完立即执行不保证执行顺序
+-->
 - 善用缓存,使用缓存时应避免缓存 `html` 文件
 - 按需加载
 - - 组件路由懒加载
@@ -218,13 +238,51 @@ HTML 所有解析完成后,开始生成 DOM 树,在将`DOM`树和`CSSOM`进行�
 ::: demo
 1. `typeof` `null` 是对象,而`undefined`是`undefined（null`原始类型是引用类型,`undefined` 是基本类型）
 2. `Number` 转换 `null` 是 `0,undefined` 是 `NAN`
-3. 设计先后顺序,先有`null` (作者借鉴了`JAVA`所有先设计的`null`, 后面因为`null`会被隐式转换0,所以后面设计了`undefined)`, 后有`undefined`
+3. 设计先后顺序,先有`null` (作者借鉴了`JAVA`所有先设计的`null`, 后面因为`null`会被隐式转换0,所以后面设计了`undefined`), 后有`undefined`
+4. `null` 表示此处不应该有值，`undefined` 表示缺省值，此处应该有一个值，只是还没有定义
+:::
+
+### 如何比较两个 NaN 相等 [参考](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/is#%E7%A4%BA%E4%BE%8B)
+::: demo
+使用 `Object.is()` 还可以比较，-0 和 +0 等
+:::
+
+### eval 是什么？
+::: demo
+Js 中本地对象，用于将对应字符串解析成 Js 并执行
+:::
+
+### 什么是事件冒泡？什么是事件委托？什么是事件捕获？
+::: demo
+事件冒泡：事件按照从特定的目标到它的父级一直到 `document` 对象顺序触发这个过程叫事件冒泡
+事件委托：将原本多个子元素上绑定的事件，委托给它们的父级，由父级担当事件监听的职务
+事件捕获：与事件冒泡相反，事件从 `document` 对象开始触发到事件特定目标，使用 `addEventListener` 方法的第三个参数设置为 `true`
+:::
+
+### document.onload 和 document.ready 事件区别
+::: demo
+onload 会等到页面加载完毕后，并且视频和图片等资源返回执行
+ready 仅在页面结构加载完成时执行
+:::
+
+### 什么事函数声明和函数表达式，区别
+::: demo
+函数声明：开头以 function 创建的函数为函数声明
+函数表达式：将函数体通过等号赋值给某个变量时为函数表达式
+
+解析器会率先读取函数声明，使其在执行任何代码时都可以访问，至于函数表达式，必须等到解析到相应行时，才会真正解析执行
 :::
 
 ### 那些是宏任务,那些是微任务
 ::: demo
 宏任务：`setTimeout、setInterval`、[requestAnimationFrame](https://developer.mozilla.org/zh-CN/docs/Web/API/window/requestAnimationFrame)（执行动画函数）
 微任务：`Promise.then catch finally`	、[MutationObserver](https://developer.mozilla.org/zh-CN/docs/Web/API/MutationObserver)（监视`DOM`改变函数）
+:::
+
+### Js 执行机制
+::: demo
+自上而下的解析执行代码，如果遇到了宏任务和微任务则将放入不同的事件队列，等执行完毕后，会通过事件循环将微任务队列中的所有微任务先执行完毕，在执行宏任务，宏任务中
+再去对处理微任务和宏任务
 :::
 
 ### 判断数组方式
@@ -365,6 +423,13 @@ function Foo() {
 变量会驻留在内存中,造成内存堆积,不会被垃圾回收机制进行回收
 :::
 
+### Js 中的本地对象，宿主对象，内置对象
+::: demo
+宿主对象：由 `ECMAScript` 实现的宿主环境提供的对象. 浏览器所提供的对象, `BOM` 和 `DOM`
+内置对象：由 `ECMAScript` 实现提供, 独立于宿主环境的所有对象，在程序开始执行时出现，开发者无需在实例化内置对象, `Math` 和 `Global`
+本地对象：独立于宿主环境的 `ECMAScript` 实现提供的对象. Object、Array、Function、RegExp、Error、SyntaxError等
+:::
+
 ### 原型和原型链
 ::: demo
 1. 什么是原型
@@ -374,7 +439,7 @@ function Foo() {
 原型也有自己的的原型,当原型指向到 `Object` 对象时,就形成了一个原型指向的链条这个就是原型链。原型链的顶端是 `null`
 3. 概念
 `Js` 分为函数对象和普通对象,函数对象拥有`__proto__`和`prototype`,普通对象只有 `__proto__`。
-内置的函数对象是 `Object、Function、Array` 等,他们之间的的 `__proto__` 相等,内置函数属性上的原型为 `Object.prototype`。
+本地的函数对象是 `Object、Function、Array` 等,他们之间的的 `__proto__` 相等,本地函数属性上的原型为 `Object.prototype`。
 `Function` 是最顶层的构造器,`Object` 是最顶层的对象。从原型来说 `Function` 继承 `Object`, 从构造器来说 `Function` 构造了 `Object。`
 :::
 
@@ -407,6 +472,14 @@ console.log(user.name)
 1. 存储的时间不同,`localStorage`属于持久化存储,浏览器或者窗口关闭依然存在,`sessionStorage`仅在浏览器窗口未关闭前有效,关闭后清空所有的存储,`cookie`仅在设置的过期时间之前有效,浏览器或者窗口关闭依然存在
 2. `cookie`可以设置有效期,而`localStorage`,`sessionStorage`不可以设置有效期
 3. 存储数据大小,已 chrome 浏览器举例,`cookie`大小为 4K, `localStorage`、`sessionStorage`大小为 5M
+4. 每个域名的 `cookie` 在不同浏览器存在个数限制 `firefox`（火狐）为50个, `opera` 为30个
+:::
+
+### 懒加载方式
+::: demo
+1. 使用延时
+2. 条件加载，满足部分条件加载
+3. 可视区域加载，严格来说也属于条件加载
 :::
 
 ## Vue2
