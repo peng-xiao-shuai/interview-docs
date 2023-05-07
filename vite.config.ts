@@ -5,6 +5,7 @@ export default defineConfig(async ({ mode }) => {
   return {
     plugins: [MarkdownTransform()],
     server: {
+      port: 8080,
       host: true,
     },
     build: {
